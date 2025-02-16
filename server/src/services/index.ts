@@ -16,17 +16,14 @@ interface Item {
 
 const items: Map<string, Item> = new Map();
 
-export const addItem = (data: Omit<Item, "id" | "events">): Item => {
+export const addItem = (data: Omit<Item, "id" | "events">): { id: string } => {
   validateItemData(data);
 
   const id = Date.now().toString();
   const newItem: Item = { id, ...data, events: [] };
   items.set(id, newItem);
-  return newItem;
-};
 
-export const fetchItems = (): Item[] => {
-  return Array.from(items.values());
+  return { id };
 };
 
 export const modifyItem = (id: string, data: Partial<Item>): Item => {
@@ -44,7 +41,7 @@ export const modifyItem = (id: string, data: Partial<Item>): Item => {
   return item;
 };
 
-export const appendEvent = (id: string, data: Omit<Event, "timestamp">): Item => {
+export const appendEvent = (id: string, data: Omit<Event, "timestamp">): Event => {
   validateEventData(data);
 
   if (!items.has(id)) {
@@ -52,9 +49,10 @@ export const appendEvent = (id: string, data: Omit<Event, "timestamp">): Item =>
   }
   const item = items.get(id)!;
   const timestamp = Date.now();
-  const newItem: Event = { ...data, timestamp };
-  item.events.push(newItem);
-  return item;
+  const newEvent: Event = { ...data, timestamp };
+  item.events.push(newEvent);
+
+  return newEvent;
 };
 
 export const fetchEvents = (id: string): Item["events"] => {

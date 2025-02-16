@@ -4,28 +4,11 @@ import * as services from "../services";
 
 export const createItem = (req: Request, res: Response) => {
   try {
-    const newItem = services.addItem(req.body);
-    res.status(201).send(newItem);
+    const { id } = services.addItem(req.body);
+    res.status(201).location(`/items/${id}`).json({ id });;
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(500).json({ message: "Failed to create item", error: error.message });
-    } else {
-      res.status(500).json({ message: "An unknown error occurred" });
-    }
-  }
-};
-
-export const getItems = (req: Request, res: Response) => {
-  try {
-    const items = services.fetchItems();
-    if (items.length === 0) {
-      res.status(404).json({ message: "No items found" });
-    } else {
-      res.send(items);
-    }
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({ message: "Failed to fetch items", error: error.message });
     } else {
       res.status(500).json({ message: "An unknown error occurred" });
     }

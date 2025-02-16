@@ -22,7 +22,6 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.post("/items", controllers.createItem);
-app.get("/items", controllers.getItems);
 app.put("/items/:id", controllers.updateItem);
 app.post("/items/:id/events", controllers.addEvent);
 app.get("/items/:id/events", controllers.getEvents);

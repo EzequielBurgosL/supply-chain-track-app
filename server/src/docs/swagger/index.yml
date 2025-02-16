@@ -24,22 +24,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Item'
-        500:
-          description: Some server error
-    get:
-      summary: Retrieve a list of all items
-      tags:
-        - Items
-      responses:
-        200:
-          description: A list of items
-          content:
-            application/json:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The unique ID of the created item
+          headers:
+            Location:
+              description: URL of the created item
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Item'
+                type: string
         500:
           description: Some server error
 
