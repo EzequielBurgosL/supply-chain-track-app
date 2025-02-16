@@ -1,0 +1,210 @@
+swagger: '2.0'
+info:
+  title: Items API
+  description: API for managing items
+  version: 1.0.0
+tags:
+  - name: Items
+    description: API for managing items
+paths:
+  /items:
+    post:
+      summary: Create a new item
+      tags:
+        - Items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        201:
+          description: Item created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        500:
+          description: Some server error
+    get:
+      summary: Retrieve a list of all items
+      tags:
+        - Items
+      responses:
+        200:
+          description: A list of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        500:
+          description: Some server error
+
+  /items/{id}:
+    put:
+      summary: Update an existing item
+      tags:
+        - Items
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The item ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        200:
+          description: The item was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        404:
+          description: The item was not found
+        500:
+          description: Some error happened
+
+  /items/{id}/events:
+    post:
+      summary: Add an event to an item
+      tags:
+        - Items
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The item ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        201:
+          description: Event added to the item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        404:
+          description: The item was not found
+        500:
+          description: Some error happened
+    get:
+      summary: Get all events for an item
+      tags:
+        - Items
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The item ID
+      responses:
+        200:
+          description: A list of events for the item
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        404:
+          description: The item was not found
+        500:
+          description: Some error happened
+
+  /items/{id}/events/last:
+    get:
+      summary: Get the last event for an item
+      tags:
+        - Items
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The item ID
+      responses:
+        200:
+          description: The last event for the item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        404:
+          description: The item or event was not found
+        500:
+          description: Some error happened
+
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The auto-generated ID of the item
+          readOnly: true
+        name:
+          type: string
+          description: The name of the item
+          example: "Laptop"
+        description:
+          type: string
+          description: A short description of the item
+          example: "A high-performance laptop for developers"
+        color:
+          type: string
+          description: The color of the item
+          example: "Silver"
+        price:
+          type: number
+          description: The price of the item
+          example: 1200
+        events:
+          type: array
+          description: A list of events associated with the item
+          items:
+            $ref: "#/components/schemas/Event"
+          readOnly: true
+      required:
+        - name
+        - description
+        - color
+        - price
+
+    Event:
+      type: object
+      properties:
+        location:
+          type: string
+          description: The location of the event
+          example: "Warehouse A"
+        custodian:
+          type: string
+          description: The person responsible for the event
+          example: "John Doe"
+        timestamp:
+          type: number
+          description: The timestamp of the event
+          readOnly: true
+          example: 1676495122000
+      required:
+        - location
+        - custodian
+        - timestamp
