@@ -32,7 +32,11 @@ This command will:
 - Build the Docker images for both the frontend and backend.
 - Start the application with all services, including the API and frontend, in the background.
 
-You can stop the application using `ctrl + c`.
+You can stop the application using `ctrl + c` or using:
+
+```bash
+docker-compose down
+```
 
 ### 2. API Docs (Swagger)
 
