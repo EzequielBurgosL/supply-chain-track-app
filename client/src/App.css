@@ -1,0 +1,54 @@
+/* Reset and Normalize */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  line-height: 1.6;
+  color: var(--dark-gray);
+  background-color: #f9f9f9;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style-type: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+:root {
+  --white: #ffffff;
+  --dark-gray: #1f1f1f; /* rgb(31, 31, 31) */
+  --red: #dd083a; /* rgb(221, 8, 58) */
+
+  /* Variants */
+  --gray: #4f4f4f; /* Lighter gray variant */
+  --light-gray: #777777;
+  --lighter-gray: #afafaf; /* Even lighter gray */
+  --dark-red: #ba0732; /* Darker red variant */
+  --darker-red: #880927; /* Darker red variant */
+  --light-red: #e9576e; /* Lighter red variant */
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
