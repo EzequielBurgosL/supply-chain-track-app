@@ -1,3 +1,5 @@
+import { validateItemData, validateEventData } from './validation';
+
 type Event = { 
   location: string; 
   custodian: string; // person responsible for the item/event
@@ -15,6 +17,8 @@ interface Item {
 const items: Map<string, Item> = new Map();
 
 export const addItem = (data: Omit<Item, "id" | "events">): Item => {
+  validateItemData(data);
+
   const id = Date.now().toString();
   const newItem: Item = { id, ...data, events: [] };
   items.set(id, newItem);
@@ -29,6 +33,11 @@ export const modifyItem = (id: string, data: Partial<Item>): Item => {
   if (!items.has(id)) {
     throw new Error(`Item with ID ${id} not found`);
   }
+
+  // Validate the item data (only if certain fields are modified)
+  if (data.name || data.color || data.price) {
+    validateItemData(data);
+  }
   const item = items.get(id)!;
   Object.assign(item, data);
   items.set(id, item);
@@ -36,12 +45,14 @@ export const modifyItem = (id: string, data: Partial<Item>): Item => {
 };
 
 export const appendEvent = (id: string, data: Omit<Event, "timestamp">): Item => {
+  validateEventData(data);
+
   if (!items.has(id)) {
     throw new Error(`Item with ID ${id} not found`);
   }
   const item = items.get(id)!;
-  const date = Date.now();
-  const newItem: Event = { ...data, timestamp: date };
+  const timestamp = Date.now();
+  const newItem: Event = { ...data, timestamp };
   item.events.push(newItem);
   return item;
 };
