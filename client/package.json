@@ -1,9 +1,12 @@
 {
-  "name": "my-react-ts-app",
+  "name": "supply-chain-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "docker:build-client": "docker build --no-cache -t supply-chain-client .",
+    "docker:run-client": "docker run -p 5173:5173 supply-chain-client",
+    "docker:start-client": "npm run docker:build-client && npm run docker:run-client",
     "start": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
