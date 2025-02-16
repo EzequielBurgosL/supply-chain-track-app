@@ -1,4 +1,4 @@
-# TS Node REST API
+# Application Server
 
 ## Install and run the api
 
