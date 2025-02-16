@@ -7,7 +7,7 @@
   "scripts": {
     "docker:build-api": "docker build --no-cache -t supply-chain-api .",
     "docker:run-api": "docker run -p 3000:3000 supply-chain-api",
-    "docker:rebuild-api": "npm run docker:build-api && npm run docker:run-api",
+    "docker:start-api": "npm run docker:build-api && npm run docker:run-api",
     "start": "npx tsx src/index.ts",
     "test": "jest"
   },
