@@ -1,10 +1,15 @@
+type Event = { 
+  location: string; 
+  custodian: string; // person responsible for the item/event
+  timestamp: number;
+};
 
 interface Item {
   id: string;
   name: string;
   color: string;
   price: number;
-  events: { location: string; custodian: string; date: Date }[];
+  events: Event[];
 }
 
 const items: Map<string, Item> = new Map();
@@ -16,28 +21,49 @@ export const addItem = (data: Omit<Item, "id" | "events">): Item => {
   return newItem;
 };
 
+export const fetchItems = (): Item[] => {
+  return Array.from(items.values());
+};
+
 export const modifyItem = (id: string, data: Partial<Item>): Item => {
-  if (!items.has(id)) throw new Error("Item not found");
+  if (!items.has(id)) {
+    throw new Error(`Item with ID ${id} not found`);
+  }
   const item = items.get(id)!;
   Object.assign(item, data);
   items.set(id, item);
   return item;
 };
 
-export const appendEvent = (id: string, event: { location: string; custodian: string; date: Date }): Item => {
-  if (!items.has(id)) throw new Error("Item not found");
+export const appendEvent = (id: string, data: Omit<Event, "timestamp">): Item => {
+  if (!items.has(id)) {
+    throw new Error(`Item with ID ${id} not found`);
+  }
   const item = items.get(id)!;
-  item.events.push(event);
+  const date = Date.now();
+  const newItem: Event = { ...data, timestamp: date };
+  item.events.push(newItem);
   return item;
 };
 
 export const fetchEvents = (id: string): Item["events"] => {
-  if (!items.has(id)) throw new Error("Item not found");
-  return items.get(id)!.events;
+  if (!items.has(id)) {
+    throw new Error(`Item with ID ${id} not found`);
+  }
+  const events = items.get(id)!.events;
+  if (events.length === 0) {
+    throw new Error(`No events found for item with ID ${id}`);
+  }
+  return events;
 };
 
 export const fetchLastEvent = (id: string): Item["events"][number] | null => {
-  if (!items.has(id)) throw new Error("Item not found");
+  if (!items.has(id)) {
+    throw new Error(`Item with ID ${id} not found`);
+  }
   const events = items.get(id)!.events;
-  return events.length ? events[events.length - 1] : null;
+  if (events.length === 0) {
+    return null;
+  }
+  return events[events.length - 1];
 };
