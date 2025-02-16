@@ -1,6 +1,6 @@
 # Application Server
 
-## Install and run the api
+## Install and run the api (via Docker)
 
 ```bash
 npm run docker:start-api

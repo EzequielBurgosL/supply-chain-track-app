@@ -23,12 +23,7 @@ export function SupplyChain() {
       const _events = await getItemEvents(itemId);
       setEvents(_events);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Something unexpected happened');
-      }
-
+      setError(error instanceof Error ? error.message : 'Something unexpected happened');
       setEvents([]);
     }
   };
@@ -36,16 +31,8 @@ export function SupplyChain() {
   return (
     <Layout>
       <InputForm callback={fetchEvents} itemId={itemId} setItemId={setItemId} />
-
       {error && <p className="error">{error}</p>}
-
-      <>
-        {events.length > 0 ? (
-          events.map((event, index) => <Card key={index} item={event} />)
-        ) : (
-          itemId && !error && <p className="error">No events found for this item.</p>
-        )}
-      </>
+      {events.length > 0 ? events.map((event, index) => <Card key={index} item={event} />) : null}
     </Layout>
   );
 }

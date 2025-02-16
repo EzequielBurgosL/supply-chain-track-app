@@ -1,6 +1,6 @@
 # Application Client
 
-## Install and run the client
+## Install and run the client (via Docker)
 
 ```bash
 npm run docker:start-client

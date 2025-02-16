@@ -16,7 +16,7 @@ export const InputForm = (props: Props) => {
         placeholder="Enter Item ID"
       />
       <button type="submit" onClick={props.callback}>
-        Fetch Events
+        Search Item Events
       </button>
     </div>
   )
